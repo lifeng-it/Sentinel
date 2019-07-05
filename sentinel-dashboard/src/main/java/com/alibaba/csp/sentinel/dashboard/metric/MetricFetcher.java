@@ -59,6 +59,7 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 /**
@@ -79,7 +80,7 @@ public class MetricFetcher {
     private final long intervalSecond = 1;
 
     private Map<String, AtomicLong> appLastFetchTime = new ConcurrentHashMap<>();
-
+    @Qualifier("influxDBMetricsRepository")
     @Autowired
     private MetricsRepository<MetricEntity> metricStore;
     @Autowired
@@ -209,6 +210,7 @@ public class MetricFetcher {
             }
             final String url = "http://" + machine.getIp() + ":" + machine.getPort() + "/" + METRIC_URL_PATH
                 + "?startTime=" + startTime + "&endTime=" + endTime + "&refetch=" + false;
+            logger.info("获取监控数据:"+url);
             final HttpGet httpGet = new HttpGet(url);
             httpGet.setHeader(HTTP.CONN_DIRECTIVE, HTTP.CONN_CLOSE);
             httpclient.execute(httpGet, new FutureCallback<HttpResponse>() {

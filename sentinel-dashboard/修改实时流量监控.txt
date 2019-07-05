@@ -1,0 +1,7 @@
+https://www.cnblogs.com/cdfive2018/p/9914838.html
+参考此基础上修改后还需修改
+修改点
+1.com.alibaba.csp.sentinel.dashboard.domain.vo.MetricVo:方法fromMetricEntity
+控制台显示时间慢8小时
+由vo.timestamp = entity.getTimestamp().getTime();修改为
+vo.timestamp = entity.getTimestamp().getTime() + 8 * 60 * 60 * 1000;

@@ -29,6 +29,7 @@ import com.alibaba.csp.sentinel.dashboard.repository.metric.MetricsRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,7 +50,7 @@ public class MetricController {
     private static Logger logger = LoggerFactory.getLogger(MetricController.class);
 
     private static final long maxQueryIntervalMs = 1000 * 60 * 60;
-
+    @Qualifier("influxDBMetricsRepository")
     @Autowired
     private MetricsRepository<MetricEntity> metricStore;
 
@@ -60,6 +61,7 @@ public class MetricController {
                                             Integer pageSize,
                                             Boolean desc,
                                             Long startTime, Long endTime, String searchKey) {
+        logger.info("查询实时流量"+app);
         if (StringUtil.isEmpty(app)) {
             return Result.ofFail(-1, "app can't be null or empty");
         }

@@ -76,7 +76,9 @@ public class MetricVo implements Comparable<MetricVo> {
         MetricVo vo = new MetricVo();
         vo.id = entity.getId();
         vo.app = entity.getApp();
-        vo.timestamp = entity.getTimestamp().getTime();
+        //时区不对,此处需要加8小时
+        //vo.timestamp = entity.getTimestamp().getTime();
+        vo.timestamp = entity.getTimestamp().getTime() + 8 * 60 * 60 * 1000;
         vo.gmtCreate = entity.getGmtCreate().getTime();
         vo.resource = entity.getResource();
         vo.passQps = entity.getPassQps();
